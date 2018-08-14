@@ -1,0 +1,21 @@
+@media only screen
+and (max-device-width : 1919px) {
+  .outerDiv {
+    width: 1000px;
+  }
+  .adContainer {
+    width: 0px;
+  }
+}
+
+@media only screen
+and (min-device-width : 1920px) {
+  .outerDiv {
+    width: 1256px;
+  }
+  .adContainer {
+    width: 128px;
+    vertical-align: top;
+  }
+}
+

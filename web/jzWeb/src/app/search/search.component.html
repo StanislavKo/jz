@@ -1,0 +1,6 @@
+<input [value] = "query" (input) = "queryChanged($event.target.value)" (keyup.enter)="searchClick(null)" size="70" placeholder="Сердце или болезнь Аддисона">
+<button (click)="searchClick($event)">Поиск</button>
+<div style="height: 10px;"></div>
+<div *ngIf="isLoading"> 
+  <mat-progress-bar #progressBar mode="indeterminate"></mat-progress-bar>
+</div>

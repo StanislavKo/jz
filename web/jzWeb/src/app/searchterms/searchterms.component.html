@@ -1,0 +1,15 @@
+<!-- <span *ngFor="let searchTerm of searchTerms" style="background-color: #ffffcc; margin: 10px;">
+  <a href="#" (click)="doSearch(searchTerm)" style="cursor: pointer">{{searchTerm}}</a>
+  &nbsp;
+  <a href="#" (click)="doErase(searchTerm)"><img src="../assets/delete.png" style="width: 16px; height: 16px; vertical-align: middle;" alt="X"></a>
+</span>
+ -->
+
+<mat-chip-list class="mySearchTerms">
+  <mat-chip *ngFor="let searchTerm of searchTerms" (click)="doSearch(searchTerm)">
+    {{searchTerm}}
+    <mat-icon (click)="doErase(searchTerm)" matChipRemove>
+      <img src="../assets/delete.png" style="width: 16px; height: 16px; vertical-align: middle;" alt="X">
+    </mat-icon>
+  </mat-chip>
+</mat-chip-list>

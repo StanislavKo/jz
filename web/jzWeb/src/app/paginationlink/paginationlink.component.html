@@ -1,0 +1,8 @@
+<span *ngIf="isVisible"> 
+  <span *ngIf="isCurrent"> 
+    {{title}}
+  </span>
+  <span *ngIf="!isCurrent"> 
+    <a href="#" (click)="doAction()" style="cursor: pointer">{{title}}</a>
+  </span>
+</span>

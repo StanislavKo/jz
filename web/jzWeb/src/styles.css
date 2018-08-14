@@ -1,0 +1,18 @@
+/* You can add global styles to this file, and also import other style files */
+@import '~@angular/material/prebuilt-themes/indigo-pink.css';
+/* @import '~@angular/material/prebuilt-themes/purple-green.css';*/
+
+div .mat-tab-label {
+  min-width: 120px !important;
+  max-width: 120px !important;
+}
+
+div :not(.mat-basic-chip).mat-chip {
+/*  background-color: #3f51b5;*/
+  background-color: rgba(197,202,233,.3);
+  color: rgba(0, 0, 0, 0.87);
+}
+
+mat-chip-list.mySearchTerms > div.mat-chip-list-wrapper {
+  display: block;
+}

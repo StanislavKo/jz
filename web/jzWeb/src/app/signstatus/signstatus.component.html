@@ -1,0 +1,6 @@
+<span *ngIf="isSignedIn"> 
+  {{username}} <a href="#" (click)="signout()" style="cursor: pointer">Выйти</a>
+</span>
+<span *ngIf="!isSignedIn"> 
+  <a href="#" (click)="signin()" style="cursor: pointer">Войти</a>
+</span>

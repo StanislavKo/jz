@@ -1,0 +1,16 @@
+@media only screen
+and (max-device-width : 1023px) {
+  .episodeOuterDiv {
+    width: 100%;
+  }
+}
+
+@media only screen
+and (min-device-width : 1024px) {
+  .episodeOuterDiv {
+    width: 1024px;
+    text-align:center; 
+    margin: 0 auto;
+  }
+}
+

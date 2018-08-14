@@ -1,0 +1,100 @@
+<div style="text-align:center; margin: 0 auto;" class="outerDiv">
+  <span *ngIf="activeView == ACTIVE_VIEW.EPISODES">
+    <table>
+    <tr>
+    <td class="adContainer">
+      <div *ngIf="innerWidth >= 1920 && isOnceLoaded">
+        <!-- <img src="/assets/ad.png">
+        <br/>
+        <img src="/assets/ad.png">
+        <br/>
+        <img src="/assets/ad.png"> -->
+      </div>
+    </td>
+    <td style="vertical-align: top;">
+      <table width="1000px">
+      <tr>
+      <td colspan="2" style="text-align:right;">
+        <table width="100%">
+          <tr>
+          <td style="text-align:left;">
+            <a href="https://play.google.com/store/apps/details?id=com.hsd.jz.android"><img src="/assets/google_play.jpg" style="width: 112px; height: 33px; vertical-align: middle;" alt="Goodle Play"></a>
+            &nbsp;&nbsp;&nbsp;
+            <a href="http://jzpro.ucoz.net/gb">Обратная связь</a>
+          </td>
+          <td style="text-align:right;">
+            <app-signstatus #signstatusComponent [parent]="this"></app-signstatus>
+            <div style="height: 10px;"></div>
+          </td>
+          </tr>
+        </table>
+      </td>
+      </tr>
+      <tr>
+      <td colspan="2" style="text-align:center; margin: 0 auto;">
+        <app-search #searchComponent [parent]="this" [isLoading]="isEpisodesLoading"></app-search>
+        <div style="height: 10px;"></div>
+      </td>
+      </tr>
+      <tr>
+      <td colspan="2" style="text-align:center; margin: 0 auto;">
+        <app-searchterms #searchtermsComponent [parent]="this"></app-searchterms>
+        <div style="height: 10px;"></div>
+      </td>
+      </tr>
+      <tr>
+      <td width="240px" style="vertical-align: text-top;">
+        <table width="100%">
+        <tr>
+        <td style="text-align:center;">
+          <span *ngIf="isSignedIn()">
+            <mat-tab-group #searchFavoriteTabComponent (selectedIndexChange)="onResultFavoritesChanged($event)">
+              <mat-tab label="Результаты"></mat-tab>
+              <mat-tab label="Избранное"></mat-tab>
+            </mat-tab-group>
+          </span>
+        </td>
+        </tr>
+        </table>
+        <div *ngIf="activeSearchFavorite == ACTIVE_SEARCH_FAVORITE.SEARCH">
+          <app-titlelist [parent]="this" [type]="0" [labels]="titles"></app-titlelist>
+          <br/>
+          <app-pagination [parent]="this" [type]="0" [offset]="el_offset" [limit]="el_limit" [count]="el_count"></app-pagination>
+        </div>
+        <div *ngIf="activeSearchFavorite == ACTIVE_SEARCH_FAVORITE.FAVORITE">
+          <app-titlelist [parent]="this" [type]="1" [labels]="titlesFavorite"></app-titlelist>
+          <br/>
+          <app-pagination [parent]="this" [type]="1" [offset]="fel_offset" [limit]="fel_limit" [count]="fel_count"></app-pagination>
+        </div>
+      </td>
+      <td style="vertical-align: text-top;">
+        <app-description #descriptionComponent [parent]="this" [episode]="episodeSelected"></app-description>
+      </td>
+      </tr>
+      </table>
+    </td>
+    <td class="adContainer">
+      <div *ngIf="innerWidth >= 1920 && isOnceLoaded">
+        <!-- <img src="/assets/ad.png">
+        <br/>
+        <img src="/assets/ad.png">
+        <br/>
+        <img src="/assets/ad.png"> -->
+      </div>
+    </td>
+    </tr>
+    </table>
+  </span>
+  <div *ngIf="activeView == ACTIVE_VIEW.LOGIN">
+    <table width="100%">
+    <tr>
+    <td style="vertical-align: text-top;" width="50%">
+      <app-signin [parent]="this"></app-signin>
+    </td>
+    <td style="vertical-align: text-top;" width="50%">
+      <app-signup [parent]="this"></app-signup>
+    </td>
+    </tr>
+    </table>
+  </div>
+</div>

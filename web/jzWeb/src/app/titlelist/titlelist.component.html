@@ -1,0 +1,33 @@
+<div class="col-md-6" style="margin-bottom: 10px; text-align: left;">
+  <table class="table table-responsive table-condensed">
+    <tr *ngFor="let label of labels">
+      <td style="padding: 2px;">
+        <div (click)="episodeClick(label.hash)" style="padding: 4px; background-color: rgba(197,202,233,.3);">
+          <span>{{label.created}} {{label.title}}</span>
+          <span *ngIf="type == 1">
+            &nbsp;
+            <a href="#" (click)="doEraseFavorite(label.hash)"><img src="../assets/delete.png" style="width: 16px; height: 16px; vertical-align: middle;" alt="X"></a>
+          </span>
+        </div>
+      </td>
+    </tr>
+  </table>
+</div>
+<!-- <span *ngIf="type == 0">
+  <mat-chip-list class="mat-chip-list-stacked">
+    <mat-chip *ngFor="let label of labels" [color]="chipColor.color">
+      {{label.created}} {{label.title}}
+    </mat-chip>
+  </mat-chip-list>
+</span>
+<span *ngIf="type == 1">
+  <mat-chip-list class="mat-chip-list-stacked">
+    <mat-chip *ngFor="let label of labels" [color]="chipColor.color">
+      {{label.created}} {{label.title}}
+      <mat-icon (click)="doEraseFavorite(label.hash)" matChipRemove>
+        <img src="../assets/delete.png" style="width: 16px; height: 16px; vertical-align: middle;" alt="X">
+      </mat-icon>
+    </mat-chip>
+  </mat-chip-list>
+</span>
+ -->

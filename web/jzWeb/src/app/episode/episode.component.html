@@ -1,0 +1,10 @@
+<div *ngIf="isNotEmptyObject(episode)" style="text-align: left;" class="episodeOuterDiv">
+  <div [innerHTML]="episode['descriptionHtml']"></div>
+  <br/><br/><br/>
+  <div [innerHTML]="iframeStr"></div>
+  <br/><br/><br/>
+  <span *ngIf="isSignedIn()">
+    <textarea [value] = "note" (input) = "noteChanged($event.target.value)" rows="6" cols="40"></textarea>
+    <button (click)="saveNoteClick($event)">В избранное</button>
+  </span>
+</div>

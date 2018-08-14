@@ -1,0 +1,16 @@
+<div style="text-align:left;">
+  <table style="background-color: rgba(197,202,233,.3);">
+  <tr>
+  <td style="padding: 10px;">
+    Логин<br/>
+    <input (input) = "usernameChanged($event.target.value)" size="30"><br/>
+    Пароль<br/>
+    <input (input) = "password1Changed($event.target.value)" type="password" size="30"><br/>
+    Повторите пароль<br/>
+    <input (input) = "password2Changed($event.target.value)" type="password" size="30"><br/>
+    {{loginError}}<br/>
+    <button (click)="singupClick($event)">Зарегистрировать</button><br/>
+  </td>
+  </tr>
+  </table>
+</div>

@@ -1,0 +1,61 @@
+# This is a sample build configuration for Java (Maven).
+# Check our guides at https://confluence.atlassian.com/x/zd-5Mw for more examples.
+# Only use spaces to indent your .yml configuration.
+# -----
+# You can specify a custom docker image from Docker Hub as your build environment.
+image: maven:3.3.9
+
+pipelines:
+  custom:
+    deploy-server-to-ecs:
+      - step:
+          name: Build
+          caches:
+            - maven
+          script: # Modify the commands below to build your repository.
+            - pwd
+            - ls -la
+            - mvn -B clean package # -B batch mode makes Maven less verbose
+            - ls -la
+            - ls /opt/atlassian/pipelines/agent/build/server/target -la
+          artifacts:
+            - server/target/server-0.0.1-SNAPSHOT.jar
+      - step:
+          # set AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY as environment variables
+          name: Deploy to ECS
+          deployment: test   # set to test, staging or production
+          # trigger: manual  # uncomment to have a manual step
+          image: atlassian/pipelines-awscli
+          services:
+            - docker
+          script:
+            # AWS authentication variables
+            # set AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY as environment variables
+            # set AWS_SECURITY_TOKEN and AWS_SESSION_TOKEN as environment variables if using temporary credentials via AWS STS
+            # aws login 
+            - pwd
+            - ls -la
+            - ls server -la
+            - eval $(aws ecr get-login --region ${AWS_DEFAULT_REGION} --no-include-email)
+            # docker 
+            - export BUILD_ID=jz_server
+            - docker build -t $BUILD_ID .
+            - docker tag $BUILD_ID:latest ${AWS_REGISTRY_URL}/$BUILD_ID:latest
+            - docker push ${AWS_REGISTRY_URL}/$BUILD_ID:latest
+            # register new Task Definition
+            - export TASK_DEF_VERSION=$(aws ecs register-task-definition --family "TD_jz_server" 
+              --task-role-arn "arn:aws:iam::1234567890:role/ProjectECSRole"
+              --container-definitions "[{\"name\":\"jz_server_container\",\"image\":\"363147381615.dkr.ecr.us-west-2.amazonaws.com/jz_server:latest\",\"memory\":850,\"cpu\":1000,
+              \"environment\":[{\"name\":\"JZ_ES_USERNAME\",\"value\":\"${ES_USERNAME}\"},{\"name\":\"JZ_ES_PASSWORD\",\"value\":\"${ES_PASSWORD}\"}
+              ,{\"name\":\"JZ_OK_SECRET\",\"value\":\"${OK_SECRET}\"},{\"name\":\"JZ_OK_PUBLIC\",\"value\":\"${OK_PUBLIC}\"}
+              ,{\"name\":\"JZ_JWT_SIGNING_KEY\",\"value\":\"${JWT_SIGNING_KEY}\"},{\"name\":\"JZ_VK_SECRET\",\"value\":\"${VK_SECRET}\"}],
+              \"mountPoints\":[{\"sourceVolume\":\"mylog\",\"containerPath\":\"/mylog\",\"readOnly\":false},{\"sourceVolume\":\"mylognginx\",\"containerPath\":\"/var/log/nginx\",\"readOnly\":false}],
+              \"portMappings\":[{\"containerPort\":80,\"hostPort\":80,\"protocol\":\"tcp\"}]}]" 
+              --volumes "[{\"name\":\"mylog\",\"host\":{\"sourcePath\":\"/ecs/mylog\"}},{\"name\":\"mylognginx\",\"host\":{\"sourcePath\":\"/ecs/mylognginx\"}}]"
+              | jq --raw-output '.taskDefinition.revision')
+            - echo "Registered Task Definition Version:" "${TASK_DEF_VERSION}"
+            - aws ecs update-service --cluster "jz-server-cluster" --service "jz_server_service" --task-definition "TD_jz_server:${TASK_DEF_VERSION}"
+            # rerun task
+            - export TASK_INSTANCE=$(aws ecs list-tasks --cluster "jz-server-cluster" | jq --raw-output '.taskArns[0]')
+            - echo "Registered Task Instance:" "${TASK_INSTANCE}"
+            - aws ecs stop-task --cluster "jz-server-cluster" --task "${TASK_INSTANCE}"

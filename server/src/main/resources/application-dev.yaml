@@ -1,0 +1,4 @@
+magento:
+  host: 54.172.134.28
+  
+logging.level.com.hsd: DEBUG
