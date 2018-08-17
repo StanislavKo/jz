@@ -1,6 +1,6 @@
 # server
 
-Spring (REST, Security), OAuth2, AWS (Dynamodb, Lambda, ECS), DigitalOcean (ElasticSearch), Nginx, ElasticSearch, Docker, Alpine.
+Spring (REST, Security, JWT), OAuth2, AWS (Dynamodb, Lambda, ECS), DigitalOcean (ElasticSearch), Nginx, ElasticSearch, Docker, Alpine.
 
 # web
 
